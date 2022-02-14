@@ -4,20 +4,6 @@
 
 ## Environment
 
-### minikube
-
-```shell
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
-minikube version
-minikube version: v1.25.1
-commit: 3e64b11ed75e56e4898ea85f96b2e4af0301f43d
-
-sudo usermod -aG docker $USER && newgrp docker
-
-minikube start
-```
-
 ### operaror-sdk
 
 https://sdk.operatorframework.io/docs/installation/
@@ -34,4 +20,66 @@ operator-sdk version: "v1.17.0", commit: "704b02a9ba86e85f43edb1b20457859e9eedc6
 ```
 
 
+
+## Build operator
+
+### operator-sdk
+
+#### Generate boilerplate
+
+```shell
+mkdir -p develop/operator/hello-operator
+go mod init hello-operator
+
+operator-sdk init
+```
+
+#### Create APIs
+
+```shell
+operator-sdk create api --group <group> --version <version> --kind <ResourceKind>
+```
+
+
+
+### Coding
+
+#### Resource
+
+
+
+#### Controller 
+
+
+
+## Run operator
+
+### Run locally outside the cluster
+
+```shell
+make install
+```
+
+
+
+### Run as a Deployment inside the cluster
+
+```shell
+make deploy
+```
+
+```shell
+kubectl get all -A |grep hello
+
+hello-operator-system   pod/hello-operator-controller-manager-864d6984fb-6g9dr   0/2     ContainerCreating   0          19s
+hello-operator-system   service/hello-operator-controller-manager-metrics-service   ClusterIP   10.96.2.75   <none>        8443/TCP                 19s
+hello-operator-system   deployment.apps/hello-operator-controller-manager   0/1     1            0           19s
+hello-operator-system   replicaset.apps/hello-operator-controller-manager-864d6984fb   1         1         0       19s
+```
+
+
+
+### Deploy your Operator with OLM
+
+*TODO*
 
